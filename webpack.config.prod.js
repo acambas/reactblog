@@ -16,10 +16,22 @@ module.exports = {
 		publicPath: '/assets/',
 		filename: '[name].js'
 	},
+    devtool: 'source-map',
 	plugins: [
 		new webpack.optimize.OccurenceOrderPlugin(),
 		//new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.js", Infinity),
-		new ExtractTextPlugin('styles.css')
+		new ExtractTextPlugin('styles.css'),
+		new webpack.DefinePlugin({
+			'process.env': {
+				// This has effect on the react lib size
+				'NODE_ENV': JSON.stringify('production'),
+			}
+		}),
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false
+			}
+		})
 	],
 	module: {
 		loaders: [
